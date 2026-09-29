@@ -4,9 +4,9 @@
 
 <p align="center">
 
-&#x20; <a href="https://github.com/praveen-chilamakuri/Bare‑Metal I2C Driver with Unit Tests and GitHub CI/actions">
+&#x20; <a href="https://github.com/praveen-chilamakuri/Bare‑Metal-I2C-Driver-with-Unit-Tests-and-GitHub-CI/actions">
 
-&#x20;   <img src="https://github.com/praveen-chilamakuri/Bare‑Metal I2C Driver with Unit Tests and GitHub CI/actions/workflows/ceedling.yml/badge.svg?branch=main" alt="Ceedling Tests">
+&#x20;   <img src="https://github.com/praveen-chilamakuri/Bare‑Metal-I2C-Driver-with-Unit-Tests-and-GitHub-CI/actions/workflows/ceedling.yml/badge.svg?branch=main" alt="Ceedling Tests">
 
 &#x20; </a>
 
