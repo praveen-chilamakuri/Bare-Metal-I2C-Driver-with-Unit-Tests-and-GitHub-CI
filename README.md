@@ -1,12 +1,12 @@
-# EXTI driven I2C driver (bare-metal)
+# Bare‑Metal I2C Driver with Unit Tests and GitHub CI
 
 
 
 <p align="center">
 
-&#x20; <a href="https://github.com/praveen-chilamakuri/EXTI-driven-I2C-driver-Bare-metal/actions">
+&#x20; <a href="https://github.com/praveen-chilamakuri/Bare‑Metal I2C Driver with Unit Tests and GitHub CI/actions">
 
-&#x20;   <img src="https://github.com/praveen-chilamakuri/EXTI-driven-I2C-driver-Bare-metal/actions/workflows/ceedling.yml/badge.svg?branch=main" alt="Ceedling Tests">
+&#x20;   <img src="https://github.com/praveen-chilamakuri/Bare‑Metal I2C Driver with Unit Tests and GitHub CI/actions/workflows/ceedling.yml/badge.svg?branch=main" alt="Ceedling Tests">
 
 &#x20; </a>
 
@@ -14,9 +14,8 @@
 
 
 
-A custom I2C driver for a system in STOP mode, interrupt by an EXTI.
+A low‑power STM32 firmware project implementing an interrupt‑driven I2C driver for the SHT31 sensor.
 
+Built using Ceedling with full unit test coverage for all logic and mockable hardware layers, integrated into GitHub CI for automated builds and test execution.
 
-
-Documentation is in progress.
-
+Validated timing and behaviour using a logic analyser.
