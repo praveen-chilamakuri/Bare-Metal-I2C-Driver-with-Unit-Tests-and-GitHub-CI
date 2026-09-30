@@ -104,7 +104,6 @@ Measured values are documented in the timing notes.
 
 ### Run Unit Tests
 
-```bash
 ceedling test:all
 
 ---
