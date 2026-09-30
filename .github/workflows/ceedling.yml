@@ -22,4 +22,6 @@ jobs:
 
     - name: Run Ceedling tests
       working-directory: "Ceedling Tests"
-      run: ceedling test:all
+      run: ceedling test:all    
+
+
