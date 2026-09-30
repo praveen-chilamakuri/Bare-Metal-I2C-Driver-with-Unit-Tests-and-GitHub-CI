@@ -122,7 +122,7 @@ The GitHub Actions workflow (`.github/workflows/ceedling.yml`) automatically:
 
 ## 🎯 Why This Project Matters
 
-This project demonstrates:
+This project demonstrates: 
 
 - Ability to design **bare‑metal drivers** on STM32  
 - Strong understanding of **interrupt‑driven firmware**  
