@@ -1,94 +1,66 @@
+#include "gpio_init.h"
 #include "stm32f411xe.h"
 #include "clock.h"
-#include "peripherals_init.h"
+#include "i2c_driver.h"
+#include "stop_mode.h"
+#include "sht31.h"
 
+// Global tick counter incremented by SysTick
 extern volatile uint32_t msTicks;
+
+// Set by EXTI interrupt when PC13 triggers
 extern volatile uint8_t exti_flag;
 
-void delay_ms(uint32_t ms)
-{
-    uint32_t start = msTicks;
-    while ((msTicks - start) < ms);
+void delay_ms(uint32_t ms);
+
+/* =================================================================== */
+/*                               MAIN                                  */
+/* =================================================================== */
+int main(void) {
+	Clock_Init();        // Enable HSI + flash latency
+	SysTick_Init();      // 1ms tick
+	GPIO_Init();         // I2C pins + LED pins + EXTI13
+	I2C1_Init();         // Configure I2C1 peripheral
+
+	uint8_t raw[6];
+
+	while (1) {
+		/* Enter STOP mode — wake on EXTI13 falling edge */
+		Enter_STOP_Mode();
+
+		if (exti_flag == 1) {
+
+			GPIOA->BSRR = (1 << 6);     // First instruction after ISR exit
+
+			/* Restore system clock after STOP mode */
+			SystemClock_Restore();
+
+			GPIOA->BSRR = (1 << (6 + 16));     // Clock restored to HSI
+
+			SysTick_Init();
+			I2C1_Init();
+
+			/* Read raw SHT31 data + CRC check */
+			uint8_t status = SHT31_ReadRaw_CRC(raw);
+			exti_flag = 0;
+
+			delay_ms(1);
+
+			/* If CRC OK → toggle LED on PA5 */
+			if (status == 0) {
+				GPIOA->BSRR = (1 << 5);   // PA5 HIGH
+				delay_ms(1);
+				GPIOA->BSRR = (1 << (5 + 16));   // PA5 LOW
+			}
+		}
+	}
 }
 
-// =====================CRC function==================
-
-uint8_t SHT31_CRC8(uint8_t *data)
-{
-    uint8_t crc = 0xFF;
-
-    for (int i = 0; i < 2; i++)
-    {
-        crc ^= data[i];
-        for (int b = 0; b < 8; b++)
-        {
-            if (crc & 0x80)
-                crc = (crc << 1) ^ 0x31;
-            else
-                crc <<= 1;
-        }
-    }
-    return crc;
-}
-
-// =========================check crc=================
-
-uint8_t SHT31_ReadRaw_CRC(uint8_t *raw)
-{
-    // Trigger measurement
-    SHT31_StartMeasurement();
-    delay_ms(15);
-
-    // Read 6 bytes
-    SHT31_ReadRaw(raw);
-
-    // CRC check: temperature and humidity
-    if ((SHT31_CRC8(raw) != raw[2]) || (SHT31_CRC8(&raw[3]) != raw[5]))
-    {
-        return 1;   // CRC fail
-    }
-    else
-    {
-    return 0;  // CRC OK
-    }
-}
-
-int main(void)
-{
-    Clock_Init();
-    SysTick_Init();
-    GPIO_Init();
-    I2C1_Init();
-
-    uint8_t raw[6];
-
-   while (1)
-    {
-
-	   GPIOA->BSRR = (1 << 6);          // HIGH
-	   delay_ms(1);
-	   GPIOA->BSRR = (1 << (6 + 16));   // LOW
-	   delay_ms(1);
-
-	   Enter_STOP_Mode();
-	   if (exti_flag == 1)
-		   {
-		     SystemClock_Restore();
-		     SysTick_Init();
-		     I2C1_Init();
-
-		   uint8_t status = SHT31_ReadRaw_CRC(raw);
-		    exti_flag = 0;
-
-		    delay_ms(1);
-
-	      if (status == 0)
-	   	           {
-	   	        	   GPIOA->BSRR = (1 << 5);   // Set PA5
-	   	        	   delay_ms(1);
-	   	        	   GPIOA->BSRR = (1 << (5 + 16));   // Reset PA5
-	   	        	   delay_ms(1);
-	   	           }
-		   }
-     }
+/* =================================================================== */
+/*                           delay_ms                                  */
+/* =================================================================== */
+void delay_ms(uint32_t ms) {
+	uint32_t start = msTicks;
+	while ((msTicks - start) < ms)
+		;
 }
