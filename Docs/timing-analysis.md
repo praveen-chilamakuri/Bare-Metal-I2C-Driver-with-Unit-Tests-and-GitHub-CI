@@ -21,6 +21,7 @@ This document summarises the timing behaviour of the I2C measurement sequence an
 | Read 6 bytes and STOP condition | ~645 µs |
 
 Total transaction time (excluding measurement delay): **~932 µs**
+
 Total including measurement delay: **~15.6 ms**
 
 ---
