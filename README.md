@@ -10,6 +10,13 @@ A bare‑metal, interrupt‑driven I2C driver for the SHT31 temperature and humi
 The project demonstrates low‑level firmware design, deterministic timing, STOP‑mode power behaviour, and full unit‑test coverage for all logic and hardware‑mockable modules using Ceedling.  
 Continuous Integration is provided through GitHub Actions, running all tests automatically on every push.
 
+A bare‑metal, interrupt‑driven I²C driver for the SHT31 temperature and humidity sensor, running on the STM32F411RE Nucleo board.  
+The project demonstrates low‑level firmware design, deterministic timing, STOP‑mode power behaviour, and full unit‑test coverage for all logic and hardware‑mockable modules using Ceedling.  
+Continuous Integration is provided through GitHub Actions, running all tests automatically on every push.
+
+Instead of computing temperature and humidity, the firmware reads the raw SHT31 bytes, validates them using CRC, and the values were manually confirmed using a logic analyser.  
+This keeps the project intentionally focused on pure bare‑metal driver design, deterministic timing, and low‑level I2C signalling.
+
 ---
 
 ## 🚀 Project Overview
