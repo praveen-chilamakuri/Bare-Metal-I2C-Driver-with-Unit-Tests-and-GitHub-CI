@@ -1,5 +1,7 @@
 <h1 align="center">Bare‑Metal I2C Driver with Unit Tests and GitHub CI</h1>
 
+**License:** `MIT` | **MCU:** `STM32F411RE` | **Field:** `Embedded Systems` | **Sensors:** `SHT31` | **Focus:** `Baremetal`
+
 <p align="center">
   <a href="https://github.com/praveen-chilamakuri/baremetal-i2c-driver/actions">
     <img src="https://github.com/praveen-chilamakuri/baremetal-i2c-driver/actions/workflows/ceedling.yml/badge.svg?branch=main" alt="Ceedling Tests">
